@@ -43,8 +43,8 @@ using (OscSender sender = new OscSender(address, port))
 
 
 # Links
-* [Source distribution](https://bitbucket.org/rugcode/rug.osc/get/Version-1.2.3.0.zip) (includes examples)
-* [Binarys](https://bitbucket.org/rugcode/rug.osc/downloads/Rug.Osc%201.2.3.0.zip)
+* [Source distribution](https://bitbucket.org/rugcode/rug.osc/get/Version-1.2.4.0.zip) (includes examples)
+* [Binarys](https://bitbucket.org/rugcode/rug.osc/downloads/Rug.Osc%201.2.4.0.zip)
 * [Nuget project page](http://www.nuget.org/packages/Rug.Osc/)
 * If you use this project please rate it on [Ohloh](https://www.ohloh.net/p/rugosc)
 * Feel free to follow us on twitter [@RugCode](https://twitter.com/RugCode)

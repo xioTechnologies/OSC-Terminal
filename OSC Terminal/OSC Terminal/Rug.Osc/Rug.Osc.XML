@@ -95,6 +95,78 @@
             List of posible char matches e.g. [abcdefg]+
             </summary>
         </member>
+        <member name="T:Rug.Osc.OscNamespaceManager">
+            <summary>
+            Manages osc address event listening
+            </summary>
+        </member>
+        <member name="F:Rug.Osc.OscNamespaceManager.m_LiteralAddresses">
+            <summary>
+            Lookup of all literal addresses to listeners 
+            </summary>
+        </member>
+        <member name="F:Rug.Osc.OscNamespaceManager.m_PatternAddresses">
+            <summary>
+            Lookup of all pattern address to filters
+            </summary>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.Attach(System.String,Rug.Osc.OscMessageEvent)">
+            <summary>
+            Attach an event listener on to the given address
+            </summary>
+            <param name="address">the address of the contianer</param>
+            <param name="event">the event to attach</param>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.Detach(System.String,Rug.Osc.OscMessageEvent)">
+            <summary>
+            Detach an event listener 
+            </summary>
+            <param name="address">the address of the container</param>
+            <param name="event">the event to remove</param>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.ShouldInvoke(Rug.Osc.OscPacket)">
+            <summary>
+            Determin if the packet should be invoked
+            </summary>
+            <param name="packet">A packet</param>
+            <returns>The appropriate action that should be taken with the packet</returns>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.Invoke(Rug.Osc.OscPacket)">
+            <summary>
+            Invoke a osc packet 
+            </summary>
+            <param name="packet">the packet</param>
+            <returns>true if any thing was invoked</returns>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.Invoke(Rug.Osc.OscBundle)">
+            <summary>
+            Invoke all the messages within a bundle
+            </summary>
+            <param name="bundle">an osc bundle of messages</param>
+            <returns>true if there was a listener to invoke for any message in the otherwise false</returns>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.Invoke(Rug.Osc.OscMessage)">
+            <summary>
+            Invoke any event that matches the address on the message
+            </summary>
+            <param name="message">the message argument</param>
+            <returns>true if there was a listener to invoke otherwise false</returns>
+        </member>
+        <member name="M:Rug.Osc.OscNamespaceManager.Dispose">
+            <summary>
+            Disposes of any resources and releases all events 
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.OscNamespaceManager.TimeProvider">
+            <summary>
+            Osc time provider, used for filtering bundles by time, if null then the DefaultTimeProvider is used 
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.OscNamespaceManager.BundleInvokeMode">
+            <summary>
+            Bundle invoke mode, the default is OscBundleInvokeMode.InvokeAllBundlesImmediately
+            </summary>
+        </member>
         <member name="T:Rug.Osc.OscPacket">
             <summary>
             Base class for all osc packets
@@ -244,78 +316,6 @@
         <member name="P:Rug.Osc.IOscTimeProvider.Now">
             <summary>
             Get the current time 
-            </summary>
-        </member>
-        <member name="T:Rug.Osc.OscListenerManager">
-            <summary>
-            Manages osc address event listening
-            </summary>
-        </member>
-        <member name="F:Rug.Osc.OscListenerManager.m_LiteralAddresses">
-            <summary>
-            Lookup of all literal addresses to listeners 
-            </summary>
-        </member>
-        <member name="F:Rug.Osc.OscListenerManager.m_PatternAddresses">
-            <summary>
-            Lookup of all pattern address to filters
-            </summary>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.Attach(System.String,Rug.Osc.OscMessageEvent)">
-            <summary>
-            Attach an event listener on to the given address
-            </summary>
-            <param name="address">the address of the contianer</param>
-            <param name="event">the event to attach</param>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.Detach(System.String,Rug.Osc.OscMessageEvent)">
-            <summary>
-            Detach an event listener 
-            </summary>
-            <param name="address">the address of the container</param>
-            <param name="event">the event to remove</param>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.ShouldInvoke(Rug.Osc.OscPacket)">
-            <summary>
-            Determin if the packet should be invoked
-            </summary>
-            <param name="packet">A packet</param>
-            <returns>The appropriate action that should be taken with the packet</returns>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.Invoke(Rug.Osc.OscPacket)">
-            <summary>
-            Invoke a osc packet 
-            </summary>
-            <param name="packet">the packet</param>
-            <returns>true if any thing was invoked</returns>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.Invoke(Rug.Osc.OscBundle)">
-            <summary>
-            Invoke all the messages within a bundle
-            </summary>
-            <param name="bundle">an osc bundle of messages</param>
-            <returns>true if there was a listener to invoke for any message in the otherwise false</returns>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.Invoke(Rug.Osc.OscMessage)">
-            <summary>
-            Invoke any event that matches the address on the message
-            </summary>
-            <param name="message">the message argument</param>
-            <returns>true if there was a listener to invoke otherwise false</returns>
-        </member>
-        <member name="M:Rug.Osc.OscListenerManager.Dispose">
-            <summary>
-            Disposes of any resources and releases all events 
-            </summary>
-        </member>
-        <member name="P:Rug.Osc.OscListenerManager.TimeProvider">
-            <summary>
-            Osc time provider, used for filtering bundles by time, if null then the DefaultTimeProvider is used 
-            </summary>
-        </member>
-        <member name="P:Rug.Osc.OscListenerManager.BundleInvokeMode">
-            <summary>
-            Bundle invoke mode, the default is OscBundleInvokeMode.InvokeAllBundlesImmediately
             </summary>
         </member>
         <member name="T:Rug.Osc.OscBundle">
@@ -567,6 +567,16 @@
             <param name="address">An address</param>
             <returns>true if it is a multicast address</returns>
         </member>
+        <member name="M:Rug.Osc.OscSocket.#ctor(System.Net.IPAddress,System.Int32,System.Net.IPAddress,System.Int32,System.Int32)">
+            <summary>
+            Create a new socket for an address and port
+            </summary>
+            <param name="local">The ip address of the local end point</param>
+            <param name="localPort">the local port, use 0 for dynamically assigned</param>
+            <param name="remote">The ip address of the remote end point</param>
+            <param name="remotePort">the remote port</param>
+            <param name="timeToLive">TTL value to apply to packets</param>
+        </member>
         <member name="M:Rug.Osc.OscSocket.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32,System.Int32)">
             <summary>
             Create a new socket for an address and port
@@ -625,6 +635,16 @@
         <member name="P:Rug.Osc.OscSocket.Port">
             <summary>
             Network port
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.OscSocket.LocalPort">
+            <summary>
+            Local network port, this is the result of dynamic port allocation is UseDynamicLocalPort is true
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.OscSocket.UseDynamicLocalPort">
+            <summary>
+            True of the socket should use dynamic local port assignment
             </summary>
         </member>
         <member name="P:Rug.Osc.OscSocket.LocalAddress">
@@ -1268,14 +1288,22 @@
         </member>
         <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Int32)">
             <summary>
-            Create a new Osc UDP sender. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="address">the ip address to send to</param>
             <param name="port">the port to send to</param>
         </member>
+        <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Int32,System.Int32)">
+            <summary>
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
+            </summary>
+            <param name="address">the ip address to send to</param>
+            <param name="localPort">the local port to bind, use 0 for dynamically assigned</param>
+            <param name="port">the port to send to</param>
+        </member>
         <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32)">
             <summary>
-            Create a new Osc UDP sender. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="local">the ip address to send from</param>
             <param name="remote">the ip address to send to</param>
@@ -1283,7 +1311,7 @@
         </member>
         <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP sender. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="local">the ip address to send from</param>
             <param name="remote">the ip address to send to</param>
@@ -1292,16 +1320,26 @@
         </member>
         <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP sender. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="address">the ip address to send to</param>
             <param name="port">the port to send to</param>		
             <param name="messageBufferSize">the number of messages that should be cached before messages get dropped</param>
             <param name="maxPacketSize">the maximum packet size of any message</param>
         </member>
+        <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
+            </summary>
+            <param name="address">the ip address to send to</param>
+            <param name="localPort">the local port to bind, use 0 for dynamically assigned</param>
+            <param name="remotePort">the port to send to</param>		
+            <param name="messageBufferSize">the number of messages that should be cached before messages get dropped</param>
+            <param name="maxPacketSize">the maximum packet size of any message</param>
+        </member>
         <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP sender. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="local">the ip address to send from</param>
             <param name="remote">the ip address to send to</param>
@@ -1311,11 +1349,23 @@
         </member>
         <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP sender. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="local">the ip address to send from</param>
             <param name="remote">the ip address to send to</param>
             <param name="port">the port to send to</param>
+            <param name="timeToLive">TTL value to apply to packets</param>
+            <param name="messageBufferSize">the number of messages that should be cached before messages get dropped</param>
+            <param name="maxPacketSize">the maximum packet size of any message</param>
+        </member>
+        <member name="M:Rug.Osc.OscSender.#ctor(System.Net.IPAddress,System.Int32,System.Net.IPAddress,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new Osc UDP sender. Note the underlying socket will not be connected untill Connect is called
+            </summary>
+            <param name="local">the ip address to send from</param>
+            <param name="localPort">the local port to bind, use 0 for dynamically assigned</param>
+            <param name="remote">the ip address to send to</param>
+            <param name="remotePort">the port to send to</param>
             <param name="timeToLive">TTL value to apply to packets</param>
             <param name="messageBufferSize">the number of messages that should be cached before messages get dropped</param>
             <param name="maxPacketSize">the maximum packet size of any message</param>
@@ -1446,6 +1496,11 @@
         <member name="P:Rug.Osc.Strings.Arguments_UnsupportedType">
             <summary>
               Looks up a localized string similar to Unsupported arguemnt type &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.Strings.Bundle_InvalidBundleMessageLength">
+            <summary>
+              Looks up a localized string similar to Invalid bundle message length.
             </summary>
         </member>
         <member name="P:Rug.Osc.Strings.Bundle_InvalidIdent">
@@ -1653,6 +1708,21 @@
               Looks up a localized string similar to The socket is already open or is not fully closed.
             </summary>
         </member>
+        <member name="P:Rug.Osc.Strings.Socket_LocalPortOutOfRange">
+            <summary>
+              Looks up a localized string similar to The valid range for local port numbers is 1 to 65535 or 0 for a dynamically assigned port.
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.Strings.Socket_PortOutOfRange">
+            <summary>
+              Looks up a localized string similar to The valid range for port numbers is 1 to 65535.
+            </summary>
+        </member>
+        <member name="P:Rug.Osc.Strings.Socket_RemotePortOutOfRange">
+            <summary>
+              Looks up a localized string similar to The valid range for remote port numbers is 1 to 65535.
+            </summary>
+        </member>
         <member name="P:Rug.Osc.Strings.Socket_UnsupportedAddressFamily">
             <summary>
               Looks up a localized string similar to Unsupported address family &apos;{0}&apos;.
@@ -1675,7 +1745,7 @@
         </member>
         <member name="M:Rug.Osc.OscReceiver.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP receiver. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP receiver. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="address">the local ip address to listen to</param>
             <param name="multicast">a multicast address to join</param>
@@ -1685,7 +1755,7 @@
         </member>
         <member name="M:Rug.Osc.OscReceiver.#ctor(System.Net.IPAddress,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP receiver. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP receiver. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="address">the local ip address to listen to</param>
             <param name="port">the port to listen on</param>
@@ -1694,14 +1764,14 @@
         </member>
         <member name="M:Rug.Osc.OscReceiver.#ctor(System.Net.IPAddress,System.Int32)">
             <summary>
-            Create a new Osc UDP receiver. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP receiver. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="address">the local ip address to listen to</param>
             <param name="port">the port to listen on</param>
         </member>
         <member name="M:Rug.Osc.OscReceiver.#ctor(System.Net.IPAddress,System.Net.IPAddress,System.Int32)">
             <summary>
-            Create a new Osc UDP receiver. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP receiver. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="address">the local ip address to listen to</param>
             <param name="multicast">a multicast address to join</param>
@@ -1709,7 +1779,7 @@
         </member>
         <member name="M:Rug.Osc.OscReceiver.#ctor(System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a new Osc UDP receiver. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP receiver. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="port">the port to listen on</param>
             <param name="messageBufferSize">the number of messages that should be cached before messages get dropped</param>
@@ -1717,7 +1787,7 @@
         </member>
         <member name="M:Rug.Osc.OscReceiver.#ctor(System.Int32)">
             <summary>
-            Create a new Osc UDP receiver. Note the underlying soket will not be connected untill Connect is called
+            Create a new Osc UDP receiver. Note the underlying socket will not be connected untill Connect is called
             </summary>
             <param name="port">the port to listen on</param>
         </member>

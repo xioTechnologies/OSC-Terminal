@@ -36,9 +36,9 @@ namespace OSC_Terminal
         /// </summary>
         private List<ushort> receivePorts = new List<ushort>();
 
-        private OscListenerManager m_Listener;
-        private OscReceiver m_Receiver;
-        private Thread m_Thread;
+        private OscNamespaceManager oscNamespaceManager;
+        private OscReceiver oscReceiver;
+        private Thread thread;
 
         #endregion
 
@@ -71,8 +71,8 @@ namespace OSC_Terminal
 
         private void FormTerminal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            m_Receiver.Close();
-            m_Thread.Join();
+            oscReceiver.Close();
+            thread.Join();
         }
 
         #endregion
@@ -206,70 +206,38 @@ namespace OSC_Terminal
             }
 
             // Open reciever
-            if (m_Receiver != null)
+            if (oscReceiver != null)
             {
-                m_Receiver.Close();
+                oscReceiver.Close();
             }
-            if (m_Thread != null)
+            if (thread != null)
             {
-                m_Thread.Join();
+                thread.Join();
             }
-            m_Listener = new OscListenerManager();
-            m_Receiver = new OscReceiver(port);
-            m_Thread = new Thread(new ThreadStart(ListenLoop));
-            m_Receiver.Connect();
-            m_Thread.Start();
-        }
-
-        private void ListenLoop()
-        {
-            try
+            oscNamespaceManager = new OscNamespaceManager();
+            oscReceiver = new OscReceiver(port);
+            thread = new Thread(new ThreadStart(delegate()
             {
-                while (m_Receiver.State != OscSocketState.Closed)
+                try
                 {
-                    // if we are in a state to recieve
-                    if (m_Receiver.State == OscSocketState.Connected)
+                    while (oscReceiver.State != OscSocketState.Closed)
                     {
-                        // get the next message 
-                        // this will block until one arrives or the socket is closed
-                        OscPacket packet = m_Receiver.Receive();
-
-                        switch (m_Listener.ShouldInvoke(packet))
+                        if (oscReceiver.State == OscSocketState.Connected)
                         {
-                            case OscPacketInvokeAction.Invoke:
+                            OscPacket packet = oscReceiver.Receive();
+                            if (oscNamespaceManager.ShouldInvoke(packet) == OscPacketInvokeAction.Invoke)
+                            {
+                                oscNamespaceManager.Invoke(packet);
+                                textBoxBuffer.WriteLine(packet.ToString());
                                 packetCounter.Increment();
-                                //textBoxBuffer.WriteLine("Received packet");
-                                textBoxBuffer.WriteLine(packet.ToString());
-                                m_Listener.Invoke(packet);
-                                break;
-                            case OscPacketInvokeAction.DontInvoke:
-                                textBoxBuffer.WriteLine("Cannot invoke");
-                                textBoxBuffer.WriteLine(packet.ToString());
-                                break;
-                            case OscPacketInvokeAction.HasError:
-                                textBoxBuffer.WriteLine("Error reading osc packet, " + packet.Error);
-                                textBoxBuffer.WriteLine(packet.ErrorMessage);
-                                break;
-                            case OscPacketInvokeAction.Pospone:
-                                textBoxBuffer.WriteLine("Posponed bundle");
-                                textBoxBuffer.WriteLine(packet.ToString());
-                                break;
-                            default:
-                                break;
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // if the socket was connected when this happens
-                // then tell the user
-                if (m_Receiver.State == OscSocketState.Connected)
-                {
-                    textBoxBuffer.WriteLine("Exception in listen loop");
-                    textBoxBuffer.WriteLine(ex.Message);
-                }
-            }
+                catch { }
+            }));
+            oscReceiver.Connect();
+            thread.Start();
         }
 
         #endregion
