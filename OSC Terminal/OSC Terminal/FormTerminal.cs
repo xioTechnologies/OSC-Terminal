@@ -36,7 +36,6 @@ namespace OSC_Terminal
         /// </summary>
         private List<ushort> receivePorts = new List<ushort>();
 
-        private OscAddressManager oscAddressManager;
         private OscReceiver oscReceiver;
         private Thread thread;
 
@@ -214,7 +213,6 @@ namespace OSC_Terminal
             {
                 thread.Join();
             }
-            oscAddressManager = new OscAddressManager();
             oscReceiver = new OscReceiver(port);
             thread = new Thread(new ThreadStart(delegate()
             {
@@ -225,12 +223,8 @@ namespace OSC_Terminal
                         if (oscReceiver.State == OscSocketState.Connected)
                         {
                             OscPacket packet = oscReceiver.Receive();
-                            if (oscAddressManager.ShouldInvoke(packet) == OscPacketInvokeAction.Invoke)
-                            {
-                                oscAddressManager.Invoke(packet);
-                                textBoxBuffer.WriteLine(packet.ToString());
-                                packetCounter.Increment();
-                            }
+                            textBoxBuffer.WriteLine(packet.ToString());
+                            packetCounter.Increment();
                         }
                     }
                 }
