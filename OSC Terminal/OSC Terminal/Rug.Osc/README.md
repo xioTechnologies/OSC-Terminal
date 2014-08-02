@@ -3,7 +3,7 @@
 Simple, complete, open source OSC implementation for .NET and Mono. 
 
 # Key Features: 
-* Pure .NET (C#) (2.0 or greater) so any .NET / Mono platform is supported. (Windows, OS-X, Linux, Android, I-OS and more)
+* Pure .NET (C#) (2.0 or greater) so any .NET / Mono platform is supported. (Windows, OS-X, Linux, Android, I-OS, Unity3D and more)
 * Message argument types supported are: **int**, **long**, **float**, **double**, **string**, **symbol**, **bool**, **RGBA**, **Osc-Null**, **Osc-Timetag**, **Osc-Midi**, **impulse**, **char**, **blob** and **arrays**.
 * Message address patterns and pattern matching.
 * Osc message bundles.
@@ -48,3 +48,6 @@ using (OscSender sender = new OscSender(address, port))
 * [Nuget project page](http://www.nuget.org/packages/Rug.Osc/)
 * If you use this project please rate it on [Ohloh](https://www.ohloh.net/p/rugosc)
 * Feel free to follow us on twitter [@RugCode](https://twitter.com/RugCode)
+* Please donate bitcoin [via Mt.Gox](https://payment.mtgox.com/4dce465b-6348-46a5-abbf-c401255283ce) or directly at 1P8XvVrrBu68P5Rd8SyYHkZ75dHJA8XU3p
+
+![QR Code](http://rugcode.files.wordpress.com/2013/11/bitcoin-donations2.png)
