@@ -72,7 +72,6 @@ namespace OSC_Terminal
             this.Text = Assembly.GetExecutingAssembly().GetName().Name;
 
             // Set default port
-            oscTimeTagStack.Push(new OscTimeTag());
             OpenReceiver(8000);
 
             // Setup form update timer
@@ -249,8 +248,9 @@ namespace OSC_Terminal
         {
             if (oscPacket is OscBundle)
             {
-                oscTimeTagStack.Push(((OscBundle)oscPacket).Timestamp);
-                foreach (OscPacket bundleElement in (OscBundle)oscPacket)
+                OscBundle oscBundle = (OscBundle)oscPacket;
+                oscTimeTagStack.Push(oscBundle.Timestamp);
+                foreach (OscPacket bundleElement in oscBundle)
                 {
                     DeconstructPacket(bundleElement);
                 }
@@ -258,7 +258,16 @@ namespace OSC_Terminal
             }
             else if (oscPacket is OscMessage)
             {
-                textBoxBuffer.WriteLine(oscTimeTagStack.Peek().ToString() + " " + ((OscMessage)oscPacket).ToString());
+                OscMessage oscMessage = (OscMessage)oscPacket;
+                if (oscTimeTagStack.Count > 0)
+                {
+                    OscTimeTag oscTimeTag = oscTimeTagStack.Peek();
+                    textBoxBuffer.WriteLine(oscTimeTag.ToString() + " " + oscMessage.ToString());
+                }
+                else
+                {
+                    textBoxBuffer.WriteLine(oscMessage.ToString());
+                }
                 messageCounter.Increment();
             }
         }
