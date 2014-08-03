@@ -60,7 +60,7 @@
     <Compile Include="FormTerminal.Designer.cs">
       <DependentUpon>FormTerminal.cs</DependentUpon>
     </Compile>
-    <Compile Include="PacketCounter.cs" />
+    <Compile Include="MessageCounter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextBoxBuffer.cs" />

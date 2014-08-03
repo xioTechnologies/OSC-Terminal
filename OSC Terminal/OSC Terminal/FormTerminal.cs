@@ -24,7 +24,7 @@ namespace OSC_Terminal
         /// <summary>
         /// Sample counter to calculate performance statics.
         /// </summary>
-        private PacketCounter packetCounter = new PacketCounter();
+        private MessageCounter messageCounter = new MessageCounter();
 
         /// <summary>
         /// TextBoxBuffer containing text printed to terminal.
@@ -36,7 +36,19 @@ namespace OSC_Terminal
         /// </summary>
         private List<ushort> receivePorts = new List<ushort>();
 
+        /// <summary>
+        /// OscTimeTag Stack for packet deconstruction.
+        /// </summary>
+        private Stack<OscTimeTag> oscTimeTagStack = new Stack<OscTimeTag>();
+
+        /// <summary>
+        /// OscReceiver object.
+        /// </summary>
         private OscReceiver oscReceiver;
+
+        /// <summary>
+        /// Reciever thread
+        /// </summary>
         private Thread thread;
 
         #endregion
@@ -60,6 +72,7 @@ namespace OSC_Terminal
             this.Text = Assembly.GetExecutingAssembly().GetName().Name;
 
             // Set default port
+            oscTimeTagStack.Push(new OscTimeTag());
             OpenReceiver(8000);
 
             // Setup form update timer
@@ -98,8 +111,8 @@ namespace OSC_Terminal
             }
 
             // Update sample counter values
-            toolStripStatusLabelPacketsReceived.Text = "Packets Recieved: " + packetCounter.PacketsReceived.ToString();
-            toolStripStatusLabelPacketRate.Text = "Packet Rate: " + packetCounter.PacketRate.ToString();
+            toolStripStatusLabelMessagesReceived.Text = "Messages Recieved: " + messageCounter.MessagesReceived.ToString();
+            toolStripStatusLabelMessageRate.Text = "Message Rate: " + messageCounter.MessageRate.ToString();
         }
 
         #endregion
@@ -222,9 +235,7 @@ namespace OSC_Terminal
                     {
                         if (oscReceiver.State == OscSocketState.Connected)
                         {
-                            OscPacket packet = oscReceiver.Receive();
-                            textBoxBuffer.WriteLine(packet.ToString());
-                            packetCounter.Increment();
+                            DeconstructPacket(oscReceiver.Receive());
                         }
                     }
                 }
@@ -232,6 +243,24 @@ namespace OSC_Terminal
             }));
             oscReceiver.Connect();
             thread.Start();
+        }
+
+        private void DeconstructPacket(OscPacket oscPacket)
+        {
+            if (oscPacket is OscBundle)
+            {
+                oscTimeTagStack.Push(((OscBundle)oscPacket).Timestamp);
+                foreach (OscPacket bundleElement in (OscBundle)oscPacket)
+                {
+                    DeconstructPacket(bundleElement);
+                }
+                oscTimeTagStack.Pop();
+            }
+            else if (oscPacket is OscMessage)
+            {
+                textBoxBuffer.WriteLine(oscTimeTagStack.Peek().ToString() + " " + ((OscMessage)oscPacket).ToString());
+                messageCounter.Increment();
+            }
         }
 
         #endregion

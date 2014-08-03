@@ -6,43 +6,43 @@ using System.Text;
 namespace OSC_Terminal
 {
     /// <summary>
-    /// Packet counter. Tracks number of packets received and packet rate.
+    /// Message counter. Tracks number of messages received and message rate.
     /// </summary>
-    class PacketCounter
+    class MessageCounter
     {
         /// <summary>
-        /// Timer to calculate packet rate.
+        /// Timer to calculate message rate.
         /// </summary>
         private System.Windows.Forms.Timer timer;
 
         /// <summary>
-        /// Number of packets received.
+        /// Number of messages received.
         /// </summary>
-        public int PacketsReceived { get; private set; }
+        public int MessagesReceived { get; private set; }
 
         /// <summary>
-        /// Packet receive rate as packets per second.
+        /// Message receive rate as messages per second.
         /// </summary>
-        public int PacketRate { get; private set; }
+        public int MessageRate { get; private set; }
 
         /// <summary>
-        /// Used to calculate packet rate.
+        /// Used to calculate message rate.
         /// </summary>
         private DateTime prevTime;
 
         /// <summary>
-        /// Used to calculate packet rate.
+        /// Used to calculate message rate.
         /// </summary>
-        private int prevPacketsReceived;
+        private int prevMessagesReceived;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PacketCounter()
+        public MessageCounter()
         {
             // Initialise variables
-            prevPacketsReceived = 0;
-            PacketsReceived = 0;
+            prevMessagesReceived = 0;
+            MessagesReceived = 0;
 
             // Setup timer
             timer = new System.Windows.Forms.Timer();
@@ -52,31 +52,31 @@ namespace OSC_Terminal
         }
 
         /// <summary>
-        /// Increments packet counter.
+        /// Increments message counter.
         /// </summary>
         public void Increment()
         {
-            PacketsReceived++;
+            MessagesReceived++;
         }
 
-        // Zeros packet counter.
+        // Zeros message counter.
         public void Reset()
         {
-            prevPacketsReceived = 0;
-            PacketsReceived = 0;
-            PacketRate = 0;
+            prevMessagesReceived = 0;
+            MessagesReceived = 0;
+            MessageRate = 0;
         }
 
         /// <summary>
-        /// timer Tick event to calculate packet rate.
+        /// timer Tick event to calculate message rate.
         /// </summary>
         void timer_Tick(object sender, EventArgs e)
         {
             DateTime nowTime = DateTime.Now;
             TimeSpan t = nowTime - prevTime;
             prevTime = nowTime;
-            PacketRate = (int)((float)(PacketsReceived - prevPacketsReceived) / ((float)t.Seconds + (float)t.Milliseconds * 0.001f));
-            prevPacketsReceived = PacketsReceived;
+            MessageRate = (int)((float)(MessagesReceived - prevMessagesReceived) / ((float)t.Seconds + (float)t.Milliseconds * 0.001f));
+            prevMessagesReceived = MessagesReceived;
         }
     }
 }
