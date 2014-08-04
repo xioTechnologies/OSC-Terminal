@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Threading;
 using Rug.Osc;
+using System.Net;
 
 namespace OSC_Terminal
 {
@@ -22,7 +23,7 @@ namespace OSC_Terminal
         private System.Windows.Forms.Timer formUpdateTimer = new System.Windows.Forms.Timer();
 
         /// <summary>
-        /// Sample counter to calculate performance statics.
+        /// Received messages counter.
         /// </summary>
         private MessageCounter messageCounter = new MessageCounter();
 
@@ -47,9 +48,19 @@ namespace OSC_Terminal
         private OscReceiver oscReceiver;
 
         /// <summary>
-        /// Reciever thread
+        /// Receiver thread
         /// </summary>
         private Thread thread;
+
+        /// <summary>
+        /// Sent messages history.
+        /// </summary>
+        private List<string> sentMessageStrings = new List<string>();
+
+        /// <summary>
+        /// Selected message to send.
+        /// </summary>
+        private OscMessage selectedSendMessage;
 
         #endregion
 
@@ -71,8 +82,11 @@ namespace OSC_Terminal
             // Set form caption
             this.Text = Assembly.GetExecutingAssembly().GetName().Name;
 
-            // Set default port
+            // Set default receive port
             OpenReceiver(8000);
+
+            // Populate Send Message drop down list
+            toolStripMenuItemSendMessage_DropDownItemClicked_Task("/example, 1.0f \"Hello World!\" 1 2 3");
 
             // Setup form update timer
             formUpdateTimer.Interval = 50;
@@ -110,8 +124,14 @@ namespace OSC_Terminal
             }
 
             // Update sample counter values
-            toolStripStatusLabelMessagesReceived.Text = "Messages Recieved: " + messageCounter.MessagesReceived.ToString();
+            toolStripStatusLabelMessagesReceived.Text = "Messages Received: " + messageCounter.MessagesReceived.ToString();
             toolStripStatusLabelMessageRate.Text = "Message Rate: " + messageCounter.MessageRate.ToString();
+        }
+
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SendCurrentMessage();
+            e.Handled = true;   // don't print character
         }
 
         #endregion
@@ -130,6 +150,10 @@ namespace OSC_Terminal
                 formGetValue.ShowDialog();
                 try
                 {
+                    if (formGetValue.value == "")
+                    {
+                        return;
+                    }
                     port = ushort.Parse(formGetValue.value);
                 }
                 catch (Exception ex)
@@ -143,6 +167,76 @@ namespace OSC_Terminal
                 port = ushort.Parse(((ToolStripMenuItem)e.ClickedItem).Text);
             }
             OpenReceiver(port);
+        }
+
+        /// <summary>
+        /// toolStripMenuItemSendMessage DropDownItemClicked event to send selected message
+        /// </summary>
+        private void toolStripMenuItemSendMessage_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            toolStripMenuItemSendMessage_DropDownItemClicked_Task(((ToolStripMenuItem)e.ClickedItem).Text);
+
+        }
+
+        /// <summary>
+        /// toolStripMenuItemSendMessage DropDownItemClicked task called by event or programmatically.
+        /// </summary>
+        /// <param name="text">
+        /// DropDownItem text to be processed.
+        /// </param>
+        private void toolStripMenuItemSendMessage_DropDownItemClicked_Task(string text)
+        {
+
+            // Create message from string
+            string oscMessageString;
+            if (text == "...")
+            {
+                FormGetValue formGetValue = new FormGetValue();
+                formGetValue.ShowDialog();
+                try
+                {
+                    if (formGetValue.value == "")
+                    {
+                        return;
+                    }
+                    OscMessage.Parse(formGetValue.value);
+                    oscMessageString = formGetValue.value;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    return;
+                }
+            }
+            else
+            {
+                oscMessageString = text;
+            }
+
+            // Update message list
+            if (!sentMessageStrings.Contains(oscMessageString))
+            {
+                sentMessageStrings.Add(oscMessageString);
+                sentMessageStrings.Sort();
+            }
+            toolStripMenuItemSendMessage.DropDownItems.Clear();
+            foreach (string s in sentMessageStrings)
+            {
+                toolStripMenuItemSendMessage.DropDownItems.Add(s);
+            }
+            toolStripMenuItemSendMessage.DropDownItems.Add("...");
+
+            // Check selected port
+            foreach (ToolStripMenuItem toolStripMenuItem in toolStripMenuItemSendMessage.DropDownItems)
+            {
+                if (toolStripMenuItem.Text == oscMessageString)
+                {
+                    toolStripMenuItem.Checked = true;
+                }
+            }
+
+            // Set selected send message
+            selectedSendMessage = OscMessage.Parse(oscMessageString);
         }
 
         /// <summary>
@@ -216,7 +310,7 @@ namespace OSC_Terminal
                 }
             }
 
-            // Open reciever
+            // Open receiver
             if (oscReceiver != null)
             {
                 oscReceiver.Close();
@@ -270,6 +364,19 @@ namespace OSC_Terminal
                 }
                 messageCounter.Increment();
             }
+        }
+
+        #endregion
+
+        #region OSC sender
+
+        private void SendCurrentMessage()
+        {
+            OscSender m_Sender;
+            m_Sender = new OscSender(IPAddress.Parse("255.255.255.255"), 9000);
+            m_Sender.Connect();
+            m_Sender.Send(selectedSendMessage);
+            m_Sender.Close(); 
         }
 
         #endregion

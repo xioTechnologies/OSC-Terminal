@@ -30,6 +30,7 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemReceivePort = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSendMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTerminal = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEnabled = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemClear = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +49,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemReceivePort,
+            this.toolStripMenuItemSendMessage,
             this.toolStripMenuItemTerminal,
             this.toolStripMenuItemHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -62,6 +64,13 @@
             this.toolStripMenuItemReceivePort.Size = new System.Drawing.Size(84, 20);
             this.toolStripMenuItemReceivePort.Text = "Receive Port";
             this.toolStripMenuItemReceivePort.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripMenuItemReceivePort_DropDownItemClicked);
+            // 
+            // toolStripMenuItemSendMessage
+            // 
+            this.toolStripMenuItemSendMessage.Name = "toolStripMenuItemSendMessage";
+            this.toolStripMenuItemSendMessage.Size = new System.Drawing.Size(94, 20);
+            this.toolStripMenuItemSendMessage.Text = "Send Message";
+            this.toolStripMenuItemSendMessage.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripMenuItemSendMessage_DropDownItemClicked);
             // 
             // toolStripMenuItemTerminal
             // 
@@ -127,13 +136,13 @@
             // toolStripStatusLabelMessagesReceived
             // 
             this.toolStripStatusLabelMessagesReceived.Name = "toolStripStatusLabelMessagesReceived";
-            this.toolStripStatusLabelMessagesReceived.Size = new System.Drawing.Size(199, 15);
+            this.toolStripStatusLabelMessagesReceived.Size = new System.Drawing.Size(210, 15);
             this.toolStripStatusLabelMessagesReceived.Text = "toolStripStatusLabelMessagesReceived";
             // 
             // toolStripStatusLabelMessageRate
             // 
             this.toolStripStatusLabelMessageRate.Name = "toolStripStatusLabelMessageRate";
-            this.toolStripStatusLabelMessageRate.Size = new System.Drawing.Size(170, 15);
+            this.toolStripStatusLabelMessageRate.Size = new System.Drawing.Size(181, 15);
             this.toolStripStatusLabelMessageRate.Text = "toolStripStatusLabelMessageRate";
             // 
             // textBox
@@ -148,6 +157,7 @@
             this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox.Size = new System.Drawing.Size(584, 318);
             this.textBox.TabIndex = 1;
+            this.textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // FormTerminal
             // 
@@ -185,6 +195,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEnabled;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClear;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemReceivePort;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSendMessage;
     }
 }
 
