@@ -38,9 +38,12 @@
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSourceCode = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabelMessagesReceived = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelMessageRate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelTotalReceived = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabeReceiveRate = new System.Windows.Forms.ToolStripStatusLabel();
             this.textBox = new System.Windows.Forms.TextBox();
+            this.toolStripStatusLabelTotalSent = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelSendRate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -124,26 +127,29 @@
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelMessagesReceived,
-            this.toolStripStatusLabelMessageRate});
+            this.toolStripStatusLabelTotalReceived,
+            this.toolStripStatusLabeReceiveRate,
+            this.toolStripStatusLabelSpacer,
+            this.toolStripStatusLabelTotalSent,
+            this.toolStripStatusLabelSendRate});
             this.statusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.statusStrip.Location = new System.Drawing.Point(0, 342);
+            this.statusStrip.Location = new System.Drawing.Point(0, 322);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(584, 20);
+            this.statusStrip.Size = new System.Drawing.Size(584, 40);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // toolStripStatusLabelMessagesReceived
+            // toolStripStatusLabelTotalReceived
             // 
-            this.toolStripStatusLabelMessagesReceived.Name = "toolStripStatusLabelMessagesReceived";
-            this.toolStripStatusLabelMessagesReceived.Size = new System.Drawing.Size(210, 15);
-            this.toolStripStatusLabelMessagesReceived.Text = "toolStripStatusLabelMessagesReceived";
+            this.toolStripStatusLabelTotalReceived.Name = "toolStripStatusLabelTotalReceived";
+            this.toolStripStatusLabelTotalReceived.Size = new System.Drawing.Size(186, 15);
+            this.toolStripStatusLabelTotalReceived.Text = "toolStripStatusLabelTotalReceived";
             // 
-            // toolStripStatusLabelMessageRate
+            // toolStripStatusLabeReceiveRate
             // 
-            this.toolStripStatusLabelMessageRate.Name = "toolStripStatusLabelMessageRate";
-            this.toolStripStatusLabelMessageRate.Size = new System.Drawing.Size(181, 15);
-            this.toolStripStatusLabelMessageRate.Text = "toolStripStatusLabelMessageRate";
+            this.toolStripStatusLabeReceiveRate.Name = "toolStripStatusLabeReceiveRate";
+            this.toolStripStatusLabeReceiveRate.Size = new System.Drawing.Size(172, 15);
+            this.toolStripStatusLabeReceiveRate.Text = "toolStripStatusLabeReceiveRate";
             // 
             // textBox
             // 
@@ -155,9 +161,27 @@
             this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
             this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox.Size = new System.Drawing.Size(584, 318);
+            this.textBox.Size = new System.Drawing.Size(584, 298);
             this.textBox.TabIndex = 1;
             this.textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // toolStripStatusLabelTotalSent
+            // 
+            this.toolStripStatusLabelTotalSent.Name = "toolStripStatusLabelTotalSent";
+            this.toolStripStatusLabelTotalSent.Size = new System.Drawing.Size(162, 15);
+            this.toolStripStatusLabelTotalSent.Text = "toolStripStatusLabelTotalSent";
+            // 
+            // toolStripStatusLabelSendRate
+            // 
+            this.toolStripStatusLabelSendRate.Name = "toolStripStatusLabelSendRate";
+            this.toolStripStatusLabelSendRate.Size = new System.Drawing.Size(161, 15);
+            this.toolStripStatusLabelSendRate.Text = "toolStripStatusLabelSendRate";
+            // 
+            // toolStripStatusLabelSpacer
+            // 
+            this.toolStripStatusLabelSpacer.Name = "toolStripStatusLabelSpacer";
+            this.toolStripStatusLabelSpacer.Size = new System.Drawing.Size(19, 15);
+            this.toolStripStatusLabelSpacer.Text = "    ";
             // 
             // FormTerminal
             // 
@@ -187,8 +211,8 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHelp;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelMessagesReceived;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelMessageRate;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTotalReceived;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabeReceiveRate;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAbout;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSourceCode;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTerminal;
@@ -196,6 +220,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClear;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemReceivePort;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSendMessage;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTotalSent;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSendRate;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpacer;
     }
 }
 

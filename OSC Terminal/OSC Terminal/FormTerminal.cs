@@ -25,7 +25,12 @@ namespace OSC_Terminal
         /// <summary>
         /// Received messages counter.
         /// </summary>
-        private MessageCounter messageCounter = new MessageCounter();
+        private MessageCounter receiveCounter = new MessageCounter();
+
+        /// <summary>
+        /// Sent messages counter.
+        /// </summary>
+        private MessageCounter sendCounter = new MessageCounter();
 
         /// <summary>
         /// TextBoxBuffer containing text printed to terminal.
@@ -124,8 +129,10 @@ namespace OSC_Terminal
             }
 
             // Update sample counter values
-            toolStripStatusLabelMessagesReceived.Text = "Messages Received: " + messageCounter.MessagesReceived.ToString();
-            toolStripStatusLabelMessageRate.Text = "Message Rate: " + messageCounter.MessageRate.ToString();
+            toolStripStatusLabelTotalReceived.Text = "Total Received: " + receiveCounter.MessageTotal.ToString();
+            toolStripStatusLabeReceiveRate.Text = "Receive Rate: " + receiveCounter.MessageRate.ToString();
+            toolStripStatusLabelTotalSent.Text = "Total Sent: " + sendCounter.MessageTotal.ToString();
+            toolStripStatusLabelSendRate.Text = "Send Rate: " + sendCounter.MessageRate.ToString();
         }
 
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -362,7 +369,7 @@ namespace OSC_Terminal
                 {
                     textBoxBuffer.WriteLine(oscMessage.ToString());
                 }
-                messageCounter.Increment();
+                receiveCounter.Increment();
             }
         }
 
@@ -376,7 +383,8 @@ namespace OSC_Terminal
             m_Sender = new OscSender(IPAddress.Parse("255.255.255.255"), 9000);
             m_Sender.Connect();
             m_Sender.Send(selectedSendMessage);
-            m_Sender.Close(); 
+            m_Sender.Close();
+            sendCounter.Increment();
         }
 
         #endregion

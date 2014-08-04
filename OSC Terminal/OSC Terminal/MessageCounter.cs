@@ -6,7 +6,7 @@ using System.Text;
 namespace OSC_Terminal
 {
     /// <summary>
-    /// Message counter. Tracks number of messages received and message rate.
+    /// Message counter. Tracks number of messages received/sent and message rate.
     /// </summary>
     class MessageCounter
     {
@@ -18,7 +18,7 @@ namespace OSC_Terminal
         /// <summary>
         /// Number of messages received.
         /// </summary>
-        public int MessagesReceived { get; private set; }
+        public int MessageTotal { get; private set; }
 
         /// <summary>
         /// Message receive rate as messages per second.
@@ -33,7 +33,7 @@ namespace OSC_Terminal
         /// <summary>
         /// Used to calculate message rate.
         /// </summary>
-        private int prevMessagesReceived;
+        private int prevMessageTotal;
 
         /// <summary>
         /// Constructor.
@@ -41,8 +41,8 @@ namespace OSC_Terminal
         public MessageCounter()
         {
             // Initialise variables
-            prevMessagesReceived = 0;
-            MessagesReceived = 0;
+            prevMessageTotal = 0;
+            MessageTotal = 0;
 
             // Setup timer
             timer = new System.Windows.Forms.Timer();
@@ -56,14 +56,14 @@ namespace OSC_Terminal
         /// </summary>
         public void Increment()
         {
-            MessagesReceived++;
+            MessageTotal++;
         }
 
         // Zeros message counter.
         public void Reset()
         {
-            prevMessagesReceived = 0;
-            MessagesReceived = 0;
+            prevMessageTotal = 0;
+            MessageTotal = 0;
             MessageRate = 0;
         }
 
@@ -75,8 +75,8 @@ namespace OSC_Terminal
             DateTime nowTime = DateTime.Now;
             TimeSpan t = nowTime - prevTime;
             prevTime = nowTime;
-            MessageRate = (int)((float)(MessagesReceived - prevMessagesReceived) / ((float)t.Seconds + (float)t.Milliseconds * 0.001f));
-            prevMessagesReceived = MessagesReceived;
+            MessageRate = (int)((float)(MessageTotal - prevMessageTotal) / ((float)t.Seconds + (float)t.Milliseconds * 0.001f));
+            prevMessageTotal = MessageTotal;
         }
     }
 }
