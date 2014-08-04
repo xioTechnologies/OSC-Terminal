@@ -44,6 +44,7 @@
             this.toolStripStatusLabelTotalSent = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelSendRate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripMenuItemSendPortIP = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +53,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemReceivePort,
+            this.toolStripMenuItemSendPortIP,
             this.toolStripMenuItemSendMessage,
             this.toolStripMenuItemTerminal,
             this.toolStripMenuItemHelp});
@@ -183,6 +185,13 @@
             this.toolStripStatusLabelSpacer.Size = new System.Drawing.Size(19, 15);
             this.toolStripStatusLabelSpacer.Text = "    ";
             // 
+            // toolStripMenuItemSendPortIP
+            // 
+            this.toolStripMenuItemSendPortIP.Name = "toolStripMenuItemSendPortIP";
+            this.toolStripMenuItemSendPortIP.Size = new System.Drawing.Size(85, 20);
+            this.toolStripMenuItemSendPortIP.Text = "Send Port/IP";
+            this.toolStripMenuItemSendPortIP.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripMenuItemSendPortIP_DropDownItemClicked);
+            // 
             // FormTerminal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,6 +232,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTotalSent;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSendRate;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpacer;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSendPortIP;
     }
 }
 

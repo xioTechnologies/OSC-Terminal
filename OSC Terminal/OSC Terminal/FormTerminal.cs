@@ -58,6 +58,21 @@ namespace OSC_Terminal
         private Thread thread;
 
         /// <summary>
+        /// Send port history
+        /// </summary>
+        private List<ushort> sendPorts = new List<ushort>();
+
+        /// <summary>
+        /// IP address string history
+        /// </summary>
+        private List<string> ipAddressStrings = new List<string>();
+
+        /// <summary>
+        /// OscSender object.
+        /// </summary>
+        OscSender oscSender;
+
+        /// <summary>
         /// Sent messages history.
         /// </summary>
         private List<string> sentMessageStrings = new List<string>();
@@ -89,6 +104,9 @@ namespace OSC_Terminal
 
             // Set default receive port
             OpenReceiver(8000);
+
+            // Set default send port/IP
+            OpenSender(9000, IPAddress.Parse("255.255.255.255"));
 
             // Populate Send Message drop down list
             toolStripMenuItemSendMessage_DropDownItemClicked_Task("/example, 1.0f \"Hello World!\" 1 2 3");
@@ -146,7 +164,7 @@ namespace OSC_Terminal
         #region Menu strip
 
         /// <summary>
-        /// toolStripMenuItemReceivePort DropDownItemClicked event to set the receive port
+        /// toolStripMenuItemReceivePort DropDownItemClicked event to set the receive port.
         /// </summary>
         private void toolStripMenuItemReceivePort_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -177,7 +195,90 @@ namespace OSC_Terminal
         }
 
         /// <summary>
-        /// toolStripMenuItemSendMessage DropDownItemClicked event to send selected message
+        /// toolStripMenuItemSendPortIP DropDownItemClicked event to set the send port/IP.
+        /// </summary>
+        private void toolStripMenuItemSendPortIP_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            bool itemIsPort = true;
+
+            // Determine if port or IP item clicked
+            foreach (object o in toolStripMenuItemSendPortIP.DropDownItems)
+            {
+                if (o is ToolStripMenuItem)
+                {
+                    if (((ToolStripMenuItem)e.ClickedItem) == (ToolStripMenuItem)o)
+                    {
+                        break;
+                    }
+                }
+                else if (o is ToolStripSeparator)
+                {
+                    itemIsPort = false;
+                    break;
+                }
+            }
+
+            // Process selected port item
+            if (itemIsPort)
+            {
+                ushort port;
+                if (((ToolStripMenuItem)e.ClickedItem).Text == "...")
+                {
+                    FormGetValue formGetValue = new FormGetValue();
+                    formGetValue.ShowDialog();
+                    try
+                    {
+                        if (formGetValue.value == "")
+                        {
+                            return;
+                        }
+                        port = ushort.Parse(formGetValue.value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        return;
+                    }
+                }
+                else
+                {
+                    port = ushort.Parse(((ToolStripMenuItem)e.ClickedItem).Text);
+                }
+                OpenSender(port, oscSender.RemoteAddress);
+            }
+
+            // Process selected IP item
+            if (!itemIsPort)
+            {
+                IPAddress ipAddress;
+                if (((ToolStripMenuItem)e.ClickedItem).Text == "...")
+                {
+                    FormGetValue formGetValue = new FormGetValue();
+                    formGetValue.ShowDialog();
+                    try
+                    {
+                        if (formGetValue.value == "")
+                        {
+                            return;
+                        }
+                        ipAddress = IPAddress.Parse(formGetValue.value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        return;
+                    }
+                }
+                else
+                {
+                    ipAddress = IPAddress.Parse(((ToolStripMenuItem)e.ClickedItem).Text);
+                }
+                OpenSender((ushort)oscSender.Port, ipAddress);
+            }
+        }
+
+        /// <summary>
+        /// toolStripMenuItemSendMessage DropDownItemClicked event to send selected message.
         /// </summary>
         private void toolStripMenuItemSendMessage_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -377,13 +478,62 @@ namespace OSC_Terminal
 
         #region OSC sender
 
+        private void OpenSender(ushort port, IPAddress ipAddress)
+        {
+
+            // Update port/IP list
+            if (!sendPorts.Contains(port))
+            {
+                sendPorts.Add(port);
+                sendPorts.Sort();
+            }
+            if (!ipAddressStrings.Contains(ipAddress.ToString()))
+            {
+                ipAddressStrings.Add(ipAddress.ToString());
+                ipAddressStrings.Sort();
+            }
+            toolStripMenuItemSendPortIP.DropDownItems.Clear();
+            foreach (ushort p in sendPorts)
+            {
+                toolStripMenuItemSendPortIP.DropDownItems.Add(p.ToString());
+            }
+            toolStripMenuItemSendPortIP.DropDownItems.Add("...");
+            toolStripMenuItemSendPortIP.DropDownItems.Add("-");
+            foreach (string s in ipAddressStrings)
+            {
+                toolStripMenuItemSendPortIP.DropDownItems.Add(s);
+            }
+            toolStripMenuItemSendPortIP.DropDownItems.Add("...");
+
+            // Check selected port/IP
+            foreach (object o in toolStripMenuItemSendPortIP.DropDownItems)
+            {
+                if (o is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)o;
+                    if (toolStripMenuItem.Text == port.ToString())
+                    {
+                        toolStripMenuItem.Checked = true;
+                    }
+                    if (toolStripMenuItem.Text == ipAddress.ToString())
+                    {
+                        toolStripMenuItem.Checked = true;
+                    }
+                }
+            }
+
+            // Open sender
+            if (oscSender != null)
+            {
+                oscSender.Close();
+            }
+            oscSender = new OscSender(ipAddress, port);
+            oscSender.Connect();
+        }
+
         private void SendCurrentMessage()
         {
-            OscSender m_Sender;
-            m_Sender = new OscSender(IPAddress.Parse("255.255.255.255"), 9000);
-            m_Sender.Connect();
-            m_Sender.Send(selectedSendMessage);
-            m_Sender.Close();
+            oscSender.Send(selectedSendMessage);
             sendCounter.Increment();
         }
 
