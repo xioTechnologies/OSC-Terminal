@@ -283,7 +283,7 @@ namespace OSC_Terminal
         private void toolStripMenuItemSendMessage_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             toolStripMenuItemSendMessage_DropDownItemClicked_Task(((ToolStripMenuItem)e.ClickedItem).Text);
-
+            SendCurrentMessage();
         }
 
         /// <summary>
@@ -527,8 +527,15 @@ namespace OSC_Terminal
             {
                 oscSender.Close();
             }
-            oscSender = new OscSender(ipAddress, port);
-            oscSender.Connect();
+            try
+            {
+                oscSender = new OscSender(ipAddress, port);
+                oscSender.Connect();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
 
         private void SendCurrentMessage()
