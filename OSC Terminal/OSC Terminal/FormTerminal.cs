@@ -109,7 +109,7 @@ namespace OSC_Terminal
             OpenSender(9000, IPAddress.Parse("255.255.255.255"));
 
             // Populate Send Message drop down list
-            toolStripMenuItemSendMessage_DropDownItemClicked_Task("/example, 1.0f \"Hello World!\" 1 2 3");
+            toolStripMenuItemSendMessage_DropDownItemClicked_Task("/example, 1.0f, \"Hello World!\", 1, 2, 3");
 
             // Setup form update timer
             formUpdateTimer.Interval = 50;
