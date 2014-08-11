@@ -30,6 +30,7 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemReceivePort = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSendPortIP = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSendMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTerminal = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEnabled = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,11 +41,10 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelTotalReceived = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabeReceiveRate = new System.Windows.Forms.ToolStripStatusLabel();
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTotalSent = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelSendRate = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripMenuItemSendPortIP = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox = new System.Windows.Forms.TextBox();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +69,13 @@
             this.toolStripMenuItemReceivePort.Size = new System.Drawing.Size(84, 20);
             this.toolStripMenuItemReceivePort.Text = "Receive Port";
             this.toolStripMenuItemReceivePort.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripMenuItemReceivePort_DropDownItemClicked);
+            // 
+            // toolStripMenuItemSendPortIP
+            // 
+            this.toolStripMenuItemSendPortIP.Name = "toolStripMenuItemSendPortIP";
+            this.toolStripMenuItemSendPortIP.Size = new System.Drawing.Size(85, 20);
+            this.toolStripMenuItemSendPortIP.Text = "Send Port/IP";
+            this.toolStripMenuItemSendPortIP.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripMenuItemSendPortIP_DropDownItemClicked);
             // 
             // toolStripMenuItemSendMessage
             // 
@@ -153,19 +160,11 @@
             this.toolStripStatusLabeReceiveRate.Size = new System.Drawing.Size(172, 15);
             this.toolStripStatusLabeReceiveRate.Text = "toolStripStatusLabeReceiveRate";
             // 
-            // textBox
+            // toolStripStatusLabelSpacer
             // 
-            this.textBox.BackColor = System.Drawing.Color.Black;
-            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox.Font = new System.Drawing.Font("Courier New", 8.25F);
-            this.textBox.ForeColor = System.Drawing.SystemColors.Info;
-            this.textBox.Location = new System.Drawing.Point(0, 24);
-            this.textBox.Multiline = true;
-            this.textBox.Name = "textBox";
-            this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox.Size = new System.Drawing.Size(584, 298);
-            this.textBox.TabIndex = 1;
-            this.textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            this.toolStripStatusLabelSpacer.Name = "toolStripStatusLabelSpacer";
+            this.toolStripStatusLabelSpacer.Size = new System.Drawing.Size(19, 15);
+            this.toolStripStatusLabelSpacer.Text = "    ";
             // 
             // toolStripStatusLabelTotalSent
             // 
@@ -179,18 +178,19 @@
             this.toolStripStatusLabelSendRate.Size = new System.Drawing.Size(161, 15);
             this.toolStripStatusLabelSendRate.Text = "toolStripStatusLabelSendRate";
             // 
-            // toolStripStatusLabelSpacer
+            // textBox
             // 
-            this.toolStripStatusLabelSpacer.Name = "toolStripStatusLabelSpacer";
-            this.toolStripStatusLabelSpacer.Size = new System.Drawing.Size(19, 15);
-            this.toolStripStatusLabelSpacer.Text = "    ";
-            // 
-            // toolStripMenuItemSendPortIP
-            // 
-            this.toolStripMenuItemSendPortIP.Name = "toolStripMenuItemSendPortIP";
-            this.toolStripMenuItemSendPortIP.Size = new System.Drawing.Size(85, 20);
-            this.toolStripMenuItemSendPortIP.Text = "Send Port/IP";
-            this.toolStripMenuItemSendPortIP.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripMenuItemSendPortIP_DropDownItemClicked);
+            this.textBox.BackColor = System.Drawing.Color.Black;
+            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.textBox.ForeColor = System.Drawing.SystemColors.Info;
+            this.textBox.Location = new System.Drawing.Point(0, 24);
+            this.textBox.Multiline = true;
+            this.textBox.Name = "textBox";
+            this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox.Size = new System.Drawing.Size(584, 298);
+            this.textBox.TabIndex = 1;
+            this.textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // FormTerminal
             // 

@@ -37,8 +37,9 @@
             // 
             this.textBoxValue.Location = new System.Drawing.Point(55, 12);
             this.textBoxValue.Name = "textBoxValue";
-            this.textBoxValue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxValue.Size = new System.Drawing.Size(247, 20);
             this.textBoxValue.TabIndex = 1;
+            this.textBoxValue.TextChanged += new System.EventHandler(this.textBoxValue_TextChanged);
             this.textBoxValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxValue_KeyPress);
             // 
             // labelValue
@@ -52,7 +53,7 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(161, 10);
+            this.buttonOK.Location = new System.Drawing.Point(308, 10);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 2;
@@ -64,7 +65,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(246, 48);
+            this.ClientSize = new System.Drawing.Size(395, 48);
             this.Controls.Add(this.labelValue);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.textBoxValue);
@@ -74,7 +75,6 @@
             this.Name = "FormGetValue";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter Value";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormGetValue_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

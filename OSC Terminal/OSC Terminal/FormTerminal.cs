@@ -172,6 +172,18 @@ namespace OSC_Terminal
             if (((ToolStripMenuItem)e.ClickedItem).Text == "...")
             {
                 FormGetValue formGetValue = new FormGetValue();
+                formGetValue.CheckString += (delegate(string currentValue)
+                {
+                    try
+                    {
+                        ushort.Parse(currentValue);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                });
                 formGetValue.ShowDialog();
                 try
                 {
@@ -225,6 +237,18 @@ namespace OSC_Terminal
                 if (((ToolStripMenuItem)e.ClickedItem).Text == "...")
                 {
                     FormGetValue formGetValue = new FormGetValue();
+                    formGetValue.CheckString += (delegate(string currentValue)
+                    {
+                        try
+                        {
+                            ushort.Parse(currentValue);
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    });
                     formGetValue.ShowDialog();
                     try
                     {
@@ -254,6 +278,18 @@ namespace OSC_Terminal
                 if (((ToolStripMenuItem)e.ClickedItem).Text == "...")
                 {
                     FormGetValue formGetValue = new FormGetValue();
+                    formGetValue.CheckString += (delegate(string currentValue)
+                    {
+                        try
+                        {
+                            IPAddress.Parse(currentValue);
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    });
                     formGetValue.ShowDialog();
                     try
                     {
@@ -300,6 +336,18 @@ namespace OSC_Terminal
             if (text == "...")
             {
                 FormGetValue formGetValue = new FormGetValue();
+                formGetValue.CheckString += (delegate(string currentValue)
+                {
+                    try
+                    {
+                        OscMessage.Parse(currentValue);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                });
                 formGetValue.ShowDialog();
                 try
                 {
